@@ -1,9 +1,7 @@
 
 
 class Employee:
-    stdrate = 0.2
-    highrate = 0.4
-    prsi = 0.04
+
     def __init__(self, StaffID, LastName, FirstName, RegHours, HourlyRate, OTMultiple, TaxCredit, StandardBand):
         self.StaffID = StaffID
         self.LastName = LastName
@@ -20,10 +18,6 @@ class Employee:
         result["name"] = name
         result["date"] = date
         result["Regular Hours Worked"] = workedhours
-        if workedhours > self.RegHours:
-            overtimehoursworked = workedhours - self.RegHours
-        else:
-            overtimehoursworked = 0
         overtimehoursworked = workedhours - self.RegHours
         result["Overtime Hours Worked"] = overtimehoursworked
         result["Regular Rate"] = self.HourlyRate
@@ -55,8 +49,7 @@ class Employee:
         result["Net Pay"] = netpay
         return result
 
-jg= Employee(12345,'Green','Joe', 37, 16, 1.5, 72, 710)
-print(jg.computePayment(42,'31/10/2021'))
+
 
 
 
