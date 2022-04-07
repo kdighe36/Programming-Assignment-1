@@ -46,6 +46,7 @@ class Employee:
         netdeductions = nettax + PrsiTax
         result["Net Deductions"] = netdeductions
         netpay = grosspay-netdeductions
+        #calculated net pay
         result["Net Pay"] = netpay
         return result
 
