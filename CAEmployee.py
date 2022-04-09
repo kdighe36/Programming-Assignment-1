@@ -1,7 +1,9 @@
 
 
 class Employee:
-
+    stdrate = 0.2
+    highrate = 0.4
+    prsi = 0.04
     def __init__(self, StaffID, LastName, FirstName, RegHours, HourlyRate, OTMultiple, TaxCredit, StandardBand):
         self.StaffID = StaffID
         self.LastName = LastName
@@ -30,7 +32,7 @@ class Employee:
         grosspay = overtimepay + regularpay
         result["Gross Pay"] = grosspay
         result["Standard Rate Pay"] = self.StandardBand
-        higherratepay = grosspay- self.StandardBands
+        higherratepay = grosspay- self.StandardBand
         result["Higher Rate Pay"] = higherratepay
         standardtax = self.StandardBand * self.stdrate
         result["Standard Tax"] = standardtax
@@ -50,6 +52,8 @@ class Employee:
         result["Net Pay"] = netpay
         return result
 
+jg= Employee(12345,'Green','Joe', 37, 16, 1.5, 72, 710)
+print(jg.computePayment(42,'31/10/2021'))
 
 
 
