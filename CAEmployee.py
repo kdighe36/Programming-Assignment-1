@@ -20,7 +20,7 @@ class Employee:
         result["name"] = name
         result["date"] = date
         result["Regular Hours Worked"] = workedhours
-        if (workedhours > self.RegHours):
+        if workedhours > self.RegHours:
             overtimehoursworked = workedhours - self.RegHours
         else:
             overtimehoursworked = 0
