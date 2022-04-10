@@ -1,4 +1,4 @@
-
+import unittest
 
 class Employee:
     stdrate = 0.2
@@ -20,7 +20,10 @@ class Employee:
         result["name"] = name
         result["date"] = date
         result["Regular Hours Worked"] = workedhours
-        overtimehoursworked = workedhours - self.RegHours
+        if (workedhours > self.RegHours):
+            overtimehoursworked = workedhours - self.RegHours
+        else:
+            overtimehoursworked = 0
         result["Overtime Hours Worked"] = overtimehoursworked
         result["Regular Rate"] = self.HourlyRate
         overtimerate = self.OTMultiple * self.HourlyRate
@@ -32,7 +35,7 @@ class Employee:
         grosspay = overtimepay + regularpay
         result["Gross Pay"] = grosspay
         result["Standard Rate Pay"] = self.StandardBand
-        higherratepay = grosspay- self.StandardBand
+        higherratepay = grosspay - self.StandardBand
         result["Higher Rate Pay"] = higherratepay
         standardtax = self.StandardBand * self.stdrate
         result["Standard Tax"] = standardtax
@@ -42,11 +45,11 @@ class Employee:
         result["Total Tax"] = totaltax
         result["Tax Credit"] = self.TaxCredit
         nettax = totaltax - self.TaxCredit
-        result["Net Tax"] = nettax
+        result["Net Tax"] = round(nettax,1)
         PrsiTax = grosspay * self.prsi
         result["PRSI"] = PrsiTax
         netdeductions = nettax + PrsiTax
-        result["Net Deductions"] = netdeductions
+        result["Net Deductions"] = round(netdeductions, 1)
         netpay = grosspay-netdeductions
         #calculated net pay
         result["Net Pay"] = netpay
@@ -54,6 +57,34 @@ class Employee:
 
 jg= Employee(12345,'Green','Joe', 37, 16, 1.5, 72, 710)
 print(jg.computePayment(42,'31/10/2021'))
+
+
+class TestcasesForEmployee(unittest.TestCase):
+
+    #Net pay cannot exceed gross pay
+    def testNetLessEqualGross(self):
+        e=Employee(12345,'Green','Joe', 37, 16, 1.5, 72, 710)
+        pi=e.computePayment(1, '31/10/2021')
+        self.assertLessEqual(pi['Net Pay'],pi['Gross Pay'])
+
+    # Test overtime is 0
+    def testOvertimeisZero(self):
+        e = Employee(12345, 'Green', 'Joe', 37, 16, 1.5, 72, 710)
+        pi = e.computePayment(1, '31/10/2021')
+        self.assertEqual(pi["Overtime Pay"], 0)
+
+    #Test Regular hours worked cannot exceed worked hours
+    def testreghrslesswrk(self):
+        e = Employee(12345, 'Green', 'Joe', 37, 16, 1.5, 72, 710)
+        pi = e.computePayment(42, '31/10/2021')
+        self.assertGreaterEqual(pi['Regular Hours Worked'], 37)
+
+    #Test Net Pay cannot be negative
+    def testnetpay(self):
+        e = Employee(12345, 'Green', 'Joe', 37, 16, 1.5, 72, 710)
+        pi = e.computePayment(0, '31/10/2021')
+        self.assertGreaterEqual(pi["Net Pay"], 0)
+
 
 
 
